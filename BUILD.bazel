@@ -1,0 +1,94 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "configure_make")
+
+# `binutils` library needs this.
+configure_make(
+    name = "lzma",
+    configure_in_place = True,
+    env = select({
+        # Without this option on macOS we will have the following issue:
+        # .../libtool: no output file specified (specify with -o output).
+        "@bazel_tools//src/conditions:darwin": {"AR": ""},
+        "//conditions:default": {},
+    }),
+    lib_source = "@com_github_lzma//:all",
+    out_static_libs = [
+        "liblzma.a",
+    ],
+)
+
+# Libunwind provides, in some cases, a more accurate stacktrace as it knows
+# to decode signal handler frames and lets us edit the context registers
+# when unwinding, allowing stack traces over bad function references.
+# On macOS clang provides a libunwind API compatible library as part of its
+# environment, so no third party libraries are necessary.
+# https://github.com/bombela/backward-cpp#libraries-to-unwind-the-stack
+configure_make(
+    name = "libunwind",
+    configure_in_place = True,
+    lib_source = "@com_github_libunwind//:all",
+    out_static_libs = [
+        "libunwind.a",
+    ],
+)
+
+# We need for 'binutils' in order to read the debug info if we want to get
+# the ultimate stack trace.
+configure_make(
+    name = "binutils",
+    args = [
+        # Without this make argument binutils will not compile.
+        # https://www.linuxquestions.org/questions/linux-from-scratch-13/problem-compiling-binutils-575412/
+        "MAKEINFO=true",
+    ],
+    configure_in_place = True,
+    configure_options = [
+        "--enable-install-libiberty",
+    ],
+    env = select({
+        # Without this option on macOS we will have the following issue:
+        # .../libtool: no output file specified (specify with -o output).
+        "@bazel_tools//src/conditions:darwin": {"AR": ""},
+        "//conditions:default": {},
+    }),
+    lib_source = "@com_github_binutils//:all",
+    out_static_libs = [
+        "libbfd.a",
+        "libiberty.a",
+    ],
+)
+
+cc_library(
+    name = "backward",
+    hdrs = glob(["backward.hpp"]),
+    defines = [
+        # For binutils
+        "BACKWARD_HAS_BFD=1",
+        # For libunwind
+        "BACKWARD_HAS_LIBUNWIND=1",
+    ],
+    linkopts = [
+        # For binutils
+        "-ldl",
+        "-lz",
+    ],
+    visibility = ["//visibility:public"],
+    # For now we support this library for macOS and Linux. Maybe in
+    # future we will add the support for Windows too.
+    target_compatible_with = select({
+        "@platforms//os:osx": [],
+        "@platforms//os:linux": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
+    deps = select({
+        "@bazel_tools//src/conditions:darwin": [
+            ":binutils",
+            ":lzma",
+        ],
+        "//conditions:default": [
+            ":binutils",
+            ":libunwind",
+            ":lzma",
+        ],
+    }),
+    alwayslink = True,
+)
