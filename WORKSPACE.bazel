@@ -1,0 +1,8 @@
+# We keep WORKSPACE.bazel for debug purposes.
+load("//bazel:repos.bzl", "repos")
+
+repos()
+
+load("//bazel:deps.bzl", "deps")
+
+deps()
