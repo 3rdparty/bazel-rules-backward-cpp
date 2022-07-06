@@ -16,6 +16,7 @@ filegroup(
 def deps(repo_mapping = {}):
     rules_foreign_cc_dependencies()
 
+    # Grab the latest version of all repos needed.
     maybe(
         http_archive,
         name = "rules_foreign_cc",

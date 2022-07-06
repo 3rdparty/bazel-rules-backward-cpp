@@ -17,7 +17,7 @@ def repos(external = True, repo_mapping = {}):
         git_repository,
         name = "com_github_3rdparty_bazel_rules_backward_cpp",
         remote = "https://github.com/3rdparty/bazel-rules-backward-cpp",
-        commit = "",
-        shallow_since = "",
+        commit = "6a88dc2d7a3ab98514997a4dfaf949f33da72bed",
+        shallow_since = "1657095319 +0300",
         repo_mapping = repo_mapping,
     )

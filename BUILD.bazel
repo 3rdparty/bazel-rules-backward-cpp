@@ -16,10 +16,11 @@ configure_make(
     ],
 )
 
-# Libunwind provides, in some cases, a more accurate stacktrace as it knows
+# Libunwind (https://github.com/libunwind/libunwind) unlike libunwind from
+# libgcc provides, in some cases, a more accurate stacktrace as it knows
 # to decode signal handler frames and lets us edit the context registers
-# when unwinding, allowing stack traces over bad function references.
-# On macOS clang provides a libunwind API compatible library as part of its
+# when unwinding, allowing stack traces over bad function references. On
+# macOS clang provides a libunwind API compatible library as part of its
 # environment, so no third party libraries are necessary.
 # https://github.com/bombela/backward-cpp#libraries-to-unwind-the-stack
 configure_make(
@@ -31,7 +32,7 @@ configure_make(
     ],
 )
 
-# We need for 'binutils' in order to read the debug info if we want to get
+# We need 'binutils' in order to read the debug info if we want to get
 # the ultimate stack trace.
 configure_make(
     name = "binutils",
@@ -59,7 +60,9 @@ configure_make(
 
 cc_library(
     name = "backward",
-    hdrs = glob(["backward.hpp"]),
+    hdrs = [
+        "backward.hpp"
+    ],
     defines = [
         # For binutils
         "BACKWARD_HAS_BFD=1",
@@ -90,5 +93,8 @@ cc_library(
             ":lzma",
         ],
     }),
+    # Link any binary that depends (directly or indirectly) on this C++ library
+    # in all the object files for the files listed in srcs, even if some contain
+    # no symbols referenced by the binary.
     alwayslink = True,
 )
