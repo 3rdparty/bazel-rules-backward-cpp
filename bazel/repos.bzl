@@ -9,7 +9,7 @@
 # instructions at https://github.com/3rdparty/bazel-rules-backward-cpp.
 ########################################################################
 
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 
 def repos(external = True, repo_mapping = {}):
@@ -20,4 +20,13 @@ def repos(external = True, repo_mapping = {}):
         commit = "6a88dc2d7a3ab98514997a4dfaf949f33da72bed",
         shallow_since = "1657095319 +0300",
         repo_mapping = repo_mapping,
+    )
+
+    maybe(
+        new_git_repository,
+        name = "com_github_3rdparty_bazel_rules_backward_cpp_stacktrace",
+        remote = "https://github.com/3rdparty/bazel-rules-backward-cpp",
+        build_file = "@com_github_3rdparty_bazel_rules_backward_cpp//:BUILD.backward-stacktrace.bazel",
+        commit = "87b7682ce4b1c849504e2b3641cebaad62aaef87",
+        shallow_since = "1658064115 +0300",
     )

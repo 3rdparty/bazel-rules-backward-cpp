@@ -58,7 +58,17 @@ def deps(repo_mapping = {}):
         name = "com_github_lzma",
         remote = "https://github.com/kobolabs/liblzma.git",
         build_file_content = _ALL_CONTENT,
-        branch = "master",
+        commit = "87b7682ce4b1c849504e2b3641cebaad62aaef87",
+        shallow_since = "1385587354 -0500",
+    )
+
+    maybe(
+        http_archive,
+        name = "com_github_google_googletest",
+        url = "https://github.com/google/googletest/archive/release-1.11.0.tar.gz",
+        sha256 = "b4870bf121ff7795ba20d20bcdd8627b8e088f2d1dab299a031c1034eddc93d5",
+        strip_prefix = "googletest-release-1.11.0",
+        repo_mapping = repo_mapping,
     )
 
     maybe(
