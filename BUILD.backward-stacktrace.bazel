@@ -1,0 +1,13 @@
+# Use this library in order to get more consistent
+# stack trace on any failure.
+cc_library(
+    name = "backward-stacktrace",
+    srcs = ["backward-stacktrace.cc"],
+    hdrs = ["backward-stacktrace.h"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_backward_cpp//:backward",
+        "@com_github_google_googletest//:gtest",
+    ],
+    alwayslink = True,
+)
