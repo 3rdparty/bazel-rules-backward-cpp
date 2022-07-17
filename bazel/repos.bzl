@@ -17,8 +17,8 @@ def repos(external = True, repo_mapping = {}):
         git_repository,
         name = "com_github_3rdparty_bazel_rules_backward_cpp",
         remote = "https://github.com/3rdparty/bazel-rules-backward-cpp",
-        commit = "6a88dc2d7a3ab98514997a4dfaf949f33da72bed",
-        shallow_since = "1657095319 +0300",
+        commit = "c8eecf571b6eb4c06c0b21b22c3fd66a4159aea8",
+        shallow_since = "1658071441 +0300",
         repo_mapping = repo_mapping,
     )
 
@@ -27,6 +27,6 @@ def repos(external = True, repo_mapping = {}):
         name = "com_github_3rdparty_bazel_rules_backward_cpp_stacktrace",
         remote = "https://github.com/3rdparty/bazel-rules-backward-cpp",
         build_file = "@com_github_3rdparty_bazel_rules_backward_cpp//:BUILD.backward-stacktrace.bazel",
-        commit = "87b7682ce4b1c849504e2b3641cebaad62aaef87",
-        shallow_since = "1658064115 +0300",
+        commit = "c8eecf571b6eb4c06c0b21b22c3fd66a4159aea8",
+        shallow_since = "1658071441 +0300",
     )
