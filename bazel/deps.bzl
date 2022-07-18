@@ -16,7 +16,7 @@ filegroup(
 def deps(repo_mapping = {}):
     rules_foreign_cc_dependencies()
 
-    # Grab the latest version of all repos needed.
+    # Get the latest rules for building C/C++ projects.
     maybe(
         http_archive,
         name = "rules_foreign_cc",
@@ -26,6 +26,8 @@ def deps(repo_mapping = {}):
         repo_mapping = repo_mapping,
     )
 
+    # Get the latest texinfo version. 'binutils' doesn't compile
+    # without this binary.
     maybe(
         http_archive,
         name = "com_github_texinfo",
@@ -35,6 +37,7 @@ def deps(repo_mapping = {}):
         strip_prefix = "texinfo-6.8",
     )
 
+    # Get the latest binutils version to read the debug info.
     maybe(
         http_archive,
         name = "com_github_binutils",
@@ -44,6 +47,9 @@ def deps(repo_mapping = {}):
         strip_prefix = "binutils-2.38",
     )
 
+    # Get the latest libunwind version to unwind the stack. (There is no need
+    # in this library on macOS, because on macOS clang provides a libunwind API
+    # compatible library as part of its environment).
     maybe(
         http_archive,
         name = "com_github_libunwind",
@@ -53,6 +59,7 @@ def deps(repo_mapping = {}):
         strip_prefix = "libunwind-1.6.2",
     )
 
+    # Get the latest lzma version.
     maybe(
         new_git_repository,
         name = "com_github_lzma",
@@ -62,12 +69,13 @@ def deps(repo_mapping = {}):
         shallow_since = "1385587354 -0500",
     )
 
+    # Get the latest gtest version.
     maybe(
         http_archive,
         name = "com_github_google_googletest",
-        url = "https://github.com/google/googletest/archive/release-1.11.0.tar.gz",
-        sha256 = "b4870bf121ff7795ba20d20bcdd8627b8e088f2d1dab299a031c1034eddc93d5",
-        strip_prefix = "googletest-release-1.11.0",
+        url = "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.tar.gz",
+        sha256 = "81964fe578e9bd7c94dfdb09c8e4d6e6759e19967e397dbea48d1c10e45d0df2",
+        strip_prefix = "googletest-release-1.12.1",
         repo_mapping = repo_mapping,
     )
 
