@@ -11,6 +11,7 @@
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def repos(external = True, repo_mapping = {}):
     maybe(
@@ -29,4 +30,13 @@ def repos(external = True, repo_mapping = {}):
         build_file = "@com_github_3rdparty_bazel_rules_backward_cpp//:BUILD.backward-stacktrace.bazel",
         commit = "69449957a41619e9b8b8be2e9bfaca2ac0642760",
         shallow_since = "1658132015 +0300",
+    )
+
+    maybe(
+        http_archive,
+        name = "rules_foreign_cc",
+        url = "https://github.com/bazelbuild/rules_foreign_cc/archive/refs/tags/0.9.0.tar.gz",
+        sha256 = "2a4d07cd64b0719b39a7c12218a3e507672b82a97b98c6a89d38565894cf7c51",
+        strip_prefix = "rules_foreign_cc-0.9.0",
+        repo_mapping = repo_mapping,
     )
