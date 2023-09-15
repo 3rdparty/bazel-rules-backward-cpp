@@ -35,7 +35,7 @@ configure_make(
 # We need 'binutils' in order to read the debug info if we want to get
 # the ultimate stack trace.
 configure_make(
-    name = "binutils",
+    name = "binutils_bazelified",
     args = [
         # Without this make argument binutils will not compile.
         # https://www.linuxquestions.org/questions/linux-from-scratch-13/problem-compiling-binutils-575412/
@@ -59,9 +59,12 @@ configure_make(
 )
 
 cc_library(
-    name = "backward",
+    name = "backward-stacktrace",
+    srcs = [
+        "backward-stacktrace.cc",
+    ],
     hdrs = [
-        "backward.hpp",
+        "backward-stacktrace.h",
     ],
     defines = [
         # For binutils
@@ -71,7 +74,6 @@ cc_library(
     ],
     linkopts = [
         # For binutils
-        "-ldl",
         "-lz",
     ],
     # For now we support this library for macOS and Linux. Maybe in
@@ -84,13 +86,17 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = select({
         "@bazel_tools//src/conditions:darwin": [
-            ":binutils",
+            ":binutils_bazelified",
             ":lzma",
+            "@com_github_backward_cpp//:backward",
+            "@com_github_google_googletest//:gtest",
         ],
         "//conditions:default": [
-            ":binutils",
+            ":binutils_bazelified",
             ":libunwind",
             ":lzma",
+            "@com_github_backward_cpp//:backward",
+            "@com_github_google_googletest//:gtest",
         ],
     }),
     # Link any binary that depends (directly or indirectly) on this C++ library
