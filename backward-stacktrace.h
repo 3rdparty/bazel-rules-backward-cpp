@@ -16,7 +16,7 @@ namespace backward_stacktrace {
 // (check_line_length skip)
 // https://github.com/YOU-i-Labs/googletest/blob/master/googletest/docs/V1_7_AdvancedGuide.md#global-set-up-and-tear-down
 class BackwardStackTrace : public ::testing::Environment {
- private:
+private:
   // A simple helper class that registers for you the most
   // common signals and other callbacks to segfault,
   // hardware exception, un-handled exception etc.

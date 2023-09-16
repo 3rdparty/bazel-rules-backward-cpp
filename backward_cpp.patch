@@ -1,0 +1,18 @@
+diff --git a/BUILD.bazel b/BUILD.bazel
+new file mode 100644
+index 0000000..83e888a
+--- /dev/null
++++ b/BUILD.bazel
+@@ -0,0 +1,5 @@
++cc_library(
++    name = "backward",
++    hdrs = ["backward.hpp"],
++    visibility = ["//visibility:public"],
++)
+diff --git a/WORKSPACE.bazel b/WORKSPACE.bazel
+new file mode 100644
+index 0000000..2a5377b
+--- /dev/null
++++ b/WORKSPACE.bazel
+@@ -0,0 +1 @@
++workspace(name = "backward_cpp")
