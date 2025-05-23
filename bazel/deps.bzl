@@ -41,7 +41,7 @@ def deps(repo_mapping = {}):
     maybe(
         http_archive,
         name = "com_github_binutils",
-        url = "https://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.gz",
+        url = "https://storage.googleapis.com/reboot-dev-packages/binutils-2.38.tar.gz",
         build_file_content = _ALL_CONTENT,
         sha256 = "b3f1dc5b17e75328f19bd88250bee2ef9f91fc8cbb7bd48bdb31390338636052",
         strip_prefix = "binutils-2.38",
